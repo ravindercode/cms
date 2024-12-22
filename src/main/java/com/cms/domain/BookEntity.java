@@ -1,5 +1,6 @@
 package com.cms.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -26,8 +27,7 @@ public class BookEntity {
     private String code;
     private BigDecimal price;
     private Integer count = 0;
-    //    @OneToMany(mappedBy = "bookEntity")
-    @OneToMany
+    @OneToMany(mappedBy = "bookEntity", cascade = CascadeType.ALL)
     private List<OrderEntity> orderEntityList = new ArrayList<>();
 
 }

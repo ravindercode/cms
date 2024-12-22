@@ -1,5 +1,6 @@
 package com.cms.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -23,8 +24,7 @@ public class ScholarEntity {
     private LocalDateTime updated = LocalDateTime.now();
     private String name;
     private Long mobile;
-    //    @OneToMany(mappedBy = "scholarEntity")
-    @OneToMany
+    @OneToMany(mappedBy = "scholarEntity", cascade = CascadeType.ALL)
     private List<OrderEntity> orderEntityList = new ArrayList<>();
     private Boolean defaulter = Boolean.FALSE;
 }

@@ -1,6 +1,7 @@
 package com.cms.domain;
 
 import com.cms.constant.PropertyConstant;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -22,13 +23,13 @@ public class OrderEntity {
     private Long id;
     private LocalDateTime created = LocalDateTime.now();
     private LocalDateTime updated = LocalDateTime.now();
+    @JsonIgnore
     @ManyToOne
-//    @JoinColumn(name = "book_id")
-    @JoinColumn
+    @JoinColumn(name = "book_id")
     private BookEntity bookEntity;
+    @JsonIgnore
     @ManyToOne
-//    @JoinColumn(name = "scholar_id")
-    @JoinColumn
+    @JoinColumn(name = "scholar_id")
     private ScholarEntity scholarEntity;
     private LocalDate postedOn = LocalDate.now();
     private LocalDate expectedOn = LocalDate.now().plusDays(PropertyConstant.returnPeriod);
