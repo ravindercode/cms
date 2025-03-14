@@ -1,7 +1,8 @@
 package com.cms.controller;
 
 import com.cms.domain.OrderEntity;
-import com.cms.mapper.OrderRequest;
+import com.cms.mapper.order.CreateRequest;
+import com.cms.mapper.order.UpdateRequest;
 import com.cms.service.OrderService;
 import com.cms.utility.ApiRespone;
 import com.cms.utility.Validator;
@@ -43,8 +44,8 @@ public class OrderController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody OrderRequest orderRequest) {
+    @PostMapping()
+    public ResponseEntity<?> create(@RequestBody CreateRequest orderRequest) {
         Optional<OrderEntity> entityOptional = orderService.create(orderRequest);
         if (entityOptional.isPresent()) {
             return ApiRespone.OK(entityOptional.get());
@@ -53,9 +54,9 @@ public class OrderController {
         }
     }
 
-    @PutMapping("{orderId}")
-    public ResponseEntity<?> update(@PathVariable Long orderId, @RequestBody OrderEntity orderEntity) {
-        Optional<OrderEntity> entityOptional = orderService.update(orderId, orderEntity);
+    @PutMapping("return/{orderId}")
+    public ResponseEntity<?> returnOrder(@PathVariable Long orderId, @RequestBody UpdateRequest updateRequest) {
+        Optional<OrderEntity> entityOptional = orderService.returnOrder(orderId, updateRequest);
         if (entityOptional.isPresent()) {
             return ApiRespone.OK(entityOptional.get());
         } else {
@@ -63,8 +64,18 @@ public class OrderController {
         }
     }
 
-    @DeleteMapping("{orderId}")
-    public ResponseEntity<?> delete(@PathVariable Long orderId) {
+    @PostMapping("reorder/{orderId}")
+    public ResponseEntity<?> reorder(@PathVariable Long orderId, @RequestBody UpdateRequest updateRequest) {
+        Optional<OrderEntity> entityOptional = orderService.reorder(orderId, updateRequest);
+        if (entityOptional.isPresent()) {
+            return ApiRespone.OK(entityOptional.get());
+        } else {
+            return ApiRespone.INTERNAL_SERVER_ERROR(null);
+        }
+    }
+
+    @DeleteMapping("cancel/{orderId}")
+    public ResponseEntity<?> cancel(@PathVariable Long orderId) {
         if (orderService.existById(orderId)) {
             orderService.delete(orderId);
             return ApiRespone.OK(orderId);
